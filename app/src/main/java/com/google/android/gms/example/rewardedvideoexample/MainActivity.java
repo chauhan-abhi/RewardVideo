@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+
 /**
  * Main Activity. Inflates main activity xml and implements RewardedVideoAdListener.
  */
@@ -41,10 +44,19 @@ public class MainActivity extends Activity {
     private Button mRetryButton;
     private long mTimeRemaining;
 
+    private RewardedVideoAd mRewardedVideoAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize the Google Mobile Ads SDK
+        MobileAds.initialize(getApplicationContext(),
+                getString(R.string.admob_app_id));
+
+        // Get reference to singleton RewardedVideoAd object
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
 
         // Create the "retry" button, which starts a new game.
         mRetryButton = ((Button) findViewById(R.id.retry_button));
@@ -86,12 +98,14 @@ public class MainActivity extends Activity {
 
     @Override
     public void onPause() {
+        mRewardedVideoAd.pause(this);
         super.onPause();
         pauseGame();
     }
 
     @Override
     public void onResume() {
+        mRewardedVideoAd.resume(this);
         super.onResume();
         if (!mGameOver && mGamePaused) {
             resumeGame();
@@ -103,6 +117,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy() {
+        mRewardedVideoAd.destroy(this);
         super.onDestroy();
     }
 

@@ -4,4 +4,7 @@
     <string name="impossible_game">Impossible Game</string>
     <string name="retry_button_text">Retry</string>
     <string name="default_coin_text">Coins: 0</string>
+
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+
 </resources>
