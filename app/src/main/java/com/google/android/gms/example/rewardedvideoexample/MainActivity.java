@@ -21,9 +21,12 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 /**
  * Main Activity. Inflates main activity xml and implements RewardedVideoAdListener.
@@ -58,6 +61,7 @@ public class MainActivity extends Activity {
         // Get reference to singleton RewardedVideoAd object
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
 
+
         // Create the "retry" button, which starts a new game.
         mRetryButton = ((Button) findViewById(R.id.retry_button));
         mRetryButton.setVisibility(View.INVISIBLE);
@@ -76,6 +80,51 @@ public class MainActivity extends Activity {
 
             startGame();
         }
+        mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+            @Override
+            public void onRewardedVideoAdLoaded() {
+                Toast.makeText(getBaseContext(),
+                        "Ad loaded.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+                Toast.makeText(getBaseContext(),
+                        "Ad opened.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+                Toast.makeText(getBaseContext(),
+                        "Ad started.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+                Toast.makeText(getBaseContext(),
+                        "Ad closed.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewarded(RewardItem rewardItem) {
+                Toast.makeText(getBaseContext(),
+                        "Ad triggered reward.", Toast.LENGTH_SHORT).show();
+                addCoins(rewardItem.getAmount());
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+                Toast.makeText(getBaseContext(),
+                        "Ad left application.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int i) {
+                Toast.makeText(getBaseContext(),
+                        "Ad failed to load.", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     @Override
