@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
@@ -44,23 +45,20 @@ public class MainActivity extends Activity {
     private CountDownTimer mCountDownTimer;
     private boolean mGameOver;
     private boolean mGamePaused;
-    private Button mRetryButton;
-    private long mTimeRemaining;
-
     private RewardedVideoAd mRewardedVideoAd;
+    private Button mRetryButton;
+    private Button mShowVideoButton;
+    private long mTimeRemaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the Google Mobile Ads SDK
-        MobileAds.initialize(getApplicationContext(),
-                getString(R.string.admob_app_id));
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
 
-        // Get reference to singleton RewardedVideoAd object
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-
 
         // Create the "retry" button, which starts a new game.
         mRetryButton = ((Button) findViewById(R.id.retry_button));
@@ -72,14 +70,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        // Hide the "watch video" until the end of a game.
+        mShowVideoButton = ((Button) findViewById(R.id.watch_video));
+        mShowVideoButton.setVisibility(View.INVISIBLE);
+
         mCoinCountText = ((TextView) findViewById(R.id.coin_count_text));
 
-        if (savedInstanceState == null) {
-            mCoinCount = 0;
-            mCoinCountText.setText("Coins: " + mCoinCount);
-
-            startGame();
-        }
         mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
@@ -125,7 +121,16 @@ public class MainActivity extends Activity {
             }
 
         });
+
+
+        if (savedInstanceState == null) {
+            mCoinCount = 0;
+            mCoinCountText.setText("Coins: " + mCoinCount);
+
+            startGame();
+        }
     }
+
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -145,16 +150,23 @@ public class MainActivity extends Activity {
         super.onSaveInstanceState(outState);
     }
 
+
     @Override
     public void onPause() {
-        mRewardedVideoAd.pause(this);
         super.onPause();
         pauseGame();
+        mRewardedVideoAd.pause(this);
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRewardedVideoAd.destroy(this);
+    }
+
+
+    @Override
     public void onResume() {
-        mRewardedVideoAd.resume(this);
         super.onResume();
         if (!mGameOver && mGamePaused) {
             resumeGame();
@@ -162,13 +174,12 @@ public class MainActivity extends Activity {
         if (mGameOver) {
             mRetryButton.setVisibility(View.VISIBLE);
         }
+        if (mGameOver && mRewardedVideoAd.isLoaded()) {
+            mShowVideoButton.setVisibility(View.VISIBLE);
+        }
+        mRewardedVideoAd.resume(this);
     }
 
-    @Override
-    public void onDestroy() {
-        mRewardedVideoAd.destroy(this);
-        super.onDestroy();
-    }
 
     private void pauseGame() {
         if (mCountDownTimer != null) {
@@ -190,10 +201,14 @@ public class MainActivity extends Activity {
     private void startGame() {
         // Hide the retry button and start the timer.
         mRetryButton.setVisibility(View.INVISIBLE);
+        mShowVideoButton.setVisibility(View.INVISIBLE);
         createTimer(COUNTER_TIME);
         mGamePaused = false;
         mGameOver = false;
+
+        mRewardedVideoAd.loadAd(getString(R.string.ad_unit_id), new AdRequest.Builder().build());
     }
+
 
     // Create the game timer, which counts down to the end of the level.
     private void createTimer(long time) {
@@ -218,9 +233,18 @@ public class MainActivity extends Activity {
 
     private void gameOver() {
         final TextView textView = ((TextView) findViewById(R.id.timer));
+        if (mRewardedVideoAd.isLoaded()) {
+            mShowVideoButton.setVisibility(View.VISIBLE);
+        }
         textView.setText("You Lose!");
         addCoins(GAME_OVER_REWARD);
         mRetryButton.setVisibility(View.VISIBLE);
         mGameOver = true;
+    }
+    public void showRewardedVideo(View view) {
+        mShowVideoButton.setVisibility(View.INVISIBLE);
+        if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
     }
 }

@@ -33,6 +33,15 @@
         android:layout_centerVertical="true"
         android:text="@string/retry_button_text" />
 
+    <Button
+        android:id="@+id/watch_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/retry_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="showRewardedVideo"
+        android:text="@string/watch_video_button_text" />
+
     <TextView
         android:id="@+id/coin_count_text"
         android:layout_width="wrap_content"

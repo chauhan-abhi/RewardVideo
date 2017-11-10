@@ -1,55 +1,64 @@
 {
   "project_info": {
-    "project_number": "1010671536259",
-    "firebase_url": "https://rewardvideo-57f12.firebaseio.com",
-    "project_id": "rewardvideo-57f12",
-    "storage_bucket": "rewardvideo-57f12.appspot.com"
+    "project_id": "this-is-a-sample",
+    "project_number": "999999999999",
+    "name": "AdMob Samples",
+    "firebase_url": "https://this-is-a-sample-do-not-use.firebaseio.com",
+    "storage_bucket": "this-is-a-sample-do-not-use.storage.firebase.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1010671536259:android:cb03c79104482203",
+        "mobilesdk_app_id": "1:999999999999:android:0000000000000000",
+        "client_id": "android:com.google.android.gms.example.rewardedvideoexample",
+        "client_type": 1,
         "android_client_info": {
-          "package_name": "com.google.android.gms.example.rewardedvideoexample"
+          "package_name": "com.google.android.gms.example.rewardedvideoexample",
+          "certificate_hash": []
         }
       },
       "oauth_client": [
         {
-          "client_id": "1010671536259-hhfd4qkjk4mu72kpcqadn39j2ipujq2c.apps.googleusercontent.com",
+          "client_id": "this-is-a-sample-do-not-use.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.google.android.gms.example.rewardedvideoexample",
-            "certificate_hash": "7e3ca70c6f05f0a8694d2d6e1349b73c5c56893d"
+            "certificate_hash": "0000000000000000000000000000000000000000"
           }
         },
         {
-          "client_id": "1010671536259-6fisc8hhec6oj8kmhjul04t2bqq9j4fh.apps.googleusercontent.com",
+          "client_id": "this-is-a-sample-do-not-use.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCzTG9L_RuNTFFVK31REBGdfDApTJ7a3Og"
+          "current_key": "000000000000000000000000000000000000000"
         }
       ],
       "services": {
         "analytics_service": {
           "status": 1
         },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
         "appinvite_service": {
           "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1010671536259-6fisc8hhec6oj8kmhjul04t2bqq9j4fh.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
         },
         "ads_service": {
-          "status": 2
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
         }
       }
     }
   ],
-  "configuration_version": "1"
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
 }
