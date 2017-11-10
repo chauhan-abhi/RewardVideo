@@ -4,6 +4,6 @@ Rewarded (or "reward-based") video ads are full screen video ads that users have
 This app integrates rewarded video ads into an existing Android mobile app, including the design considerations, as well as implementation details, to follow the best practices for rewarded video ads.
 
 # Screenshot
-<img src="https://github.com/chauhan-abhi/RewardVideo/tree/master/art/device-2017-11-10-121301.png" alt="alt text" width="360" height="640">
+<img src="https://github.com/chauhan-abhi/RewardVideo/blob/master/art/device-2017-11-10-121301.png" width="360" height="640">
 
 
